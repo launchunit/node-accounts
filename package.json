@@ -1,0 +1,19 @@
+{
+  "name": "node-accounts",
+  "version": "0.0.1",
+  "author": "Karan Sakhuja <kevin.sakhuja@gmail.com> (http://kevify.com)",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava test/index.js"
+  },
+  "dependencies": {
+    "deep-freeze": "0.0.1",
+    "joi": "^7.2.3",
+    "lodash": "^4.2.1"
+  },
+  "devDependencies": {
+    "ava": "^0.7.0",
+    "mongodb-client": "git@github.com:launchunit/mongodb-client.git",
+    "node-uuid": "^1.4.7"
+  }
+}
