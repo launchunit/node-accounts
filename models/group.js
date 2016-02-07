@@ -17,15 +17,15 @@ exports.name = 'group';
 exports.schema = {
 
   // Basics
-  name: Joi.string().trim().min(1),
-  description: Joi.string().trim().min(1).default(''),
+  name: Joi.string().trim().label('Group Name'),
+  description: Joi.string().trim(),
 
   // Meta
   active: Joi.boolean().default(true),
 
   // Keys
-  created_by: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
-  org_id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+  org_id: joiHelpers.objectId(),
+  created_by: joiHelpers.objectId(),
 
   // Book-keeping
   created: Joi.date().min('now').default(new Date),
@@ -35,11 +35,11 @@ exports.schema = {
 exports.methods = {
 
   // Create New Group
-  create_account: Joi.object({
+  create_group: Joi.object({
     name: exports.schema.name,
     description: exports.schema.description,
-    created_by: exports.schema.created_by,
     org_id:  exports.schema.org_id,
+    created_by: exports.schema.created_by,
     active: exports.schema.active,
     created: exports.schema.created,
     updated: exports.schema.updated
@@ -52,6 +52,21 @@ exports.methods = {
     updated: exports.schema.updated,
   })
   .requiredKeys('active'),
+
+  // Update Group
+  update_group: Joi.object({
+    name: exports.schema.name,
+    description: exports.schema.description,
+    updated: exports.schema.updated,
+  })
+  .min(2)
+  .options({
+    language: {
+      object: {
+        min: '!!Must have at least 1 field to update.',
+      }
+    }
+  }),
 
 };
 

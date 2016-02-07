@@ -17,14 +17,14 @@ exports.name = 'org';
 exports.schema = {
 
   // Basics
-  name: Joi.string().trim().min(1),
-  description: Joi.string().trim().min(1).default(''),
+  name: Joi.string().trim().label('Org Name'),
+  description: Joi.string().trim(),
 
   // Meta
   active: Joi.boolean().default(true),
 
   // Keys
-  created_by: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+  created_by: joiHelpers.objectId(),
 
   // Book-keeping
   created: Joi.date().min('now').default(new Date),
@@ -33,8 +33,8 @@ exports.schema = {
 
 exports.methods = {
 
-  // Create Org Group
-  create_account: Joi.object({
+  // Create New Org
+  create_org: Joi.object({
     name: exports.schema.name,
     description: exports.schema.description,
     created_by: exports.schema.created_by,
@@ -51,8 +51,23 @@ exports.methods = {
   })
   .requiredKeys('active'),
 
+  // Update Org
+  update_org: Joi.object({
+    name: exports.schema.name,
+    description: exports.schema.description,
+    updated: exports.schema.updated,
+  })
+  .min(2)
+  .options({
+    language: {
+      object: {
+        min: '!!Must have at least 1 field to update.',
+      }
+    }
+  }),
+
 };
 
 exports.indexes = [
-  [ { created_by: 1 }, { unique: false, sparse: false } ],
+  [ { created_by: 1 }, { unique: true, sparse: false } ],
 ];

@@ -44,12 +44,16 @@ const ROLES_MAP = _.chain(ROLES)
     if (typeof parent === 'object') {
 
       return _.map(parent, (i, role) => {
-        return i ? (parentKey + '.' + role) : null;
+        return i
+            ? (parentKey + '.' + role).toLowerCase()
+            : null;
       });
     }
 
     // Not Nested
-    return parent ? parentKey : null
+    return parent
+      ? parentKey.toLowerCase()
+      : null;
   })
   .flattenDeep()
   .compact()

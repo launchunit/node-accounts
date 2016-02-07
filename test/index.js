@@ -29,5 +29,8 @@ test.before(t => {
   });
 });
 
-// Account Model
-require('./account_model');
+// Models
+// require('./account_model');
+// require('./group_model');
+// require('./org_model');
+require('./permission_model');

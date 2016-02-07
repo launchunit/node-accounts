@@ -8,7 +8,7 @@
 const _ = require('lodash'),
   Joi = require('joi'),
   joiHelpers = require('joi-helpers'),
-  ROLES = require('../constants/roles').roles;
+  Roles = require('../constants/roles').roles;
 
 
 /**
@@ -19,15 +19,25 @@ exports.name = 'permission';
 exports.schema = {
 
   // Basics
-  account_id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+  account_id: joiHelpers.objectId(),
 
-  org_id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+  org_id: joiHelpers.objectId(),
 
-  roles: Joi.array().unique().sparse(false)
-            .items(Joi.string().valid(ROLES)),
+  roles: Joi.array().unique().sparse(false).min(1)
+            .items(Joi.string().valid(Roles))
+            .options({
+              language: { array: {
+                base: '{{key}} must be an array.',
+              }}
+            }),
 
-  groups: Joi.array().unique().sparse(false)
-             .items(Joi.string().regex(/^[0-9a-fA-F]{24}$/)),
+  groups: Joi.array().unique().sparse(false).min(1)
+             .items(joiHelpers.objectId())
+            .options({
+              language: { array: {
+                base: '{{key}} must be an array.',
+              }}
+            }),
 
   // Book-keeping
   created: Joi.date().min('now').default(new Date),
@@ -37,7 +47,7 @@ exports.schema = {
 exports.methods = {
 
   // Create New Permission
-  create_account: Joi.object({
+  create_permission: Joi.object({
     account_id: exports.schema.account_id,
     org_id: exports.schema.org_id,
     roles: exports.schema.roles,
@@ -47,7 +57,7 @@ exports.methods = {
   })
   .requiredKeys('account_id', 'org_id', 'roles'),
 
-  // Update Role
+  // Update Roles
   update_roles: Joi.object({
     account_id: exports.schema.account_id.strip(),
     org_id: exports.schema.org_id.strip(),
@@ -55,16 +65,9 @@ exports.methods = {
     updated: exports.schema.updated,
   })
   .requiredKeys('account_id', 'org_id', 'roles'),
-  // // .options({
-  // //   language: {
-  // //     array: {
-  // //       base: '{{!!key}} Invalid permissions.'
-  // //     }
-  // //   }
-  // // }),
 
   // Update Groups
-  update_role: Joi.object({
+  update_groups: Joi.object({
     account_id: exports.schema.account_id.strip(),
     org_id: exports.schema.org_id.strip(),
     groups: exports.schema.groups,

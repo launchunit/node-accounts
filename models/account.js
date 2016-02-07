@@ -51,10 +51,10 @@ exports.schema = {
   last_name: Joi.string().trim().label('Last Name'),
   picture: Joi.string().lowercase().trim().uri(),
   bio: Joi.string().trim().label('Bio'),
-  gender: joiHelpers.buildValidSchema(
+  gender: joiHelpers.anyValid(
             Joi.string().trim().lowercase().label('Gender'),
             ['male', 'female', 'other']),
-  timezone: joiHelpers.buildValidSchema(
+  timezone: joiHelpers.anyValid(
               Joi.string().trim().lowercase().label('Timezone'),
               Timezones),
 
@@ -127,6 +127,13 @@ exports.methods = {
     }
   }),
 
+  // Update Email
+  update_email: Joi.object({
+    email: exports.schema.email,
+    updated: exports.schema.updated,
+  })
+  .requiredKeys('email'),
+
   // Update Email Verify
   verify_email: Joi.object({
     email_verified: exports.schema.email_verified.valid(true).default(true),
@@ -144,7 +151,8 @@ exports.methods = {
   update_password: Joi.object({
     password: exports.schema.password,
     reset_token: exports.schema.reset_token.valid(null).default(null),
-    reset_expiry: exports.schema.reset_expiry.valid(null).default(null)
+    reset_expiry: exports.schema.reset_expiry.valid(null).default(null),
+    updated: exports.schema.updated,
   })
   .requiredKeys('password')
   .optionalKeys('reset_token', 'reset_expiry')
