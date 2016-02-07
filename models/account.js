@@ -8,9 +8,7 @@
 const _ = require('lodash'),
   Joi = require('joi'),
   joiHelpers = require('joi-helpers'),
-  ROLES = require('../constants/roles').roles,
-  ROLES_MAP = require('../constants/roles').rolesMap,
-  TIMEZONES = _.map(_.keys(
+  Timezones = _.map(_.keys(
     require('../constants/timezones')), _.toLower);
 
 
@@ -58,14 +56,14 @@ exports.schema = {
             ['male', 'female', 'other']),
   timezone: joiHelpers.buildValidSchema(
               Joi.string().trim().lowercase().label('Timezone'),
-              TIMEZONES),
+              Timezones),
 
   // Book-keeping
   created: Joi.date().min('now').default(new Date),
   updated: Joi.date().min('now').default(new Date)
 };
 
-exports.actions = {
+exports.methods = {
 
   // Password Reset
   reset_password: Joi.object({
@@ -103,7 +101,7 @@ exports.actions = {
     active: exports.schema.active,
     created: exports.schema.created,
     updated: exports.schema.updated,
-    timezone: exports.schema.timezone.default(TIMEZONES[6]), // Default=EST
+    timezone: exports.schema.timezone.default(Timezones[6]), // Default=EST
     reset_token: exports.schema.reset_token.valid(null).default(null),
     reset_expiry: exports.schema.reset_expiry.valid(null).default(null)
   })

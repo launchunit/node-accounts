@@ -23,7 +23,7 @@ test.before(t => {
       // Fake Delay
       setTimeout(() => {
         resolve()
-      }, 500);
+      }, 1000);
 
     });
   });
