@@ -5,9 +5,13 @@
  * Module dependencies.
  * @private
  */
-const Joi = require('joi'),
-  ROLES = require('../permissions/roles').roles,
-  ROLES_MAP = require('../permissions/roles').rolesMap;
+const _ = require('lodash'),
+  Joi = require('joi'),
+  joiHelpers = require('joi-helpers'),
+  ROLES = require('../constants/roles').roles,
+  ROLES_MAP = require('../constants/roles').rolesMap,
+  TIMEZONES = _.map(_.keys(
+    require('../constants/timezones')), _.toLower);
 
 
 /**
@@ -44,16 +48,17 @@ exports.schema = {
                   }),
                   // .label('Password Reset Expiry'),
 
-  // Permissions
-  permissions: {
-    org_id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
-
-    roles: Joi.array().unique()
-              .items(Joi.string().valid(ROLES)),
-
-    groups: Joi.array().unique()
-              .items(Joi.string().regex(/^[0-9a-fA-F]{24}$/))
-  },
+  // Profile
+  first_name: Joi.string().trim().label('First Name'),
+  last_name: Joi.string().trim().label('Last Name'),
+  picture: Joi.string().lowercase().trim().uri(),
+  bio: Joi.string().trim().label('Bio'),
+  gender: joiHelpers.buildValidSchema(
+            Joi.string().trim().lowercase().label('Gender'),
+            ['male', 'female', 'other']),
+  timezone: joiHelpers.buildValidSchema(
+              Joi.string().trim().lowercase().label('Timezone'),
+              TIMEZONES),
 
   // Book-keeping
   created: Joi.date().min('now').default(new Date),
@@ -84,12 +89,11 @@ exports.actions = {
 
   // Login
   login: Joi.object({
-    last_login: exports.schema.last_login,
+    last_login: exports.schema.last_login.default(new Date),
     reset_token: exports.schema.reset_token.default(null).valid(null),
     reset_expiry: exports.schema.reset_expiry.default(null).valid(null)
   })
-  .requiredKeys('last_login')
-  .optionalKeys('reset_token', 'reset_expiry'),
+  .optionalKeys('last_login', 'reset_token', 'reset_expiry'),
 
   // Create New Account
   create_account: Joi.object({
@@ -99,12 +103,31 @@ exports.actions = {
     active: exports.schema.active,
     created: exports.schema.created,
     updated: exports.schema.updated,
+    timezone: exports.schema.timezone.default(TIMEZONES[6]), // Default=EST
     reset_token: exports.schema.reset_token.valid(null).default(null),
     reset_expiry: exports.schema.reset_expiry.valid(null).default(null)
   })
   .requiredKeys('email', 'password')
-  .optionalKeys('reset_token', 'reset_expiry'),
-  //               'updated', 'created', ''),
+  .optionalKeys('reset_token', 'reset_expiry', 'timezone'),
+
+  // Profile
+  profile: Joi.object({
+    first_name: exports.schema.first_name,
+    last_name: exports.schema.last_name,
+    picture: exports.schema.picture,
+    bio: exports.schema.bio,
+    gender: exports.schema.gender,
+    updated: exports.schema.updated,
+    timezone: exports.schema.timezone
+  })
+  .min(2)
+  .options({
+    language: {
+      object: {
+        min: '!!Profile object must have at least 1 field to update.',
+      }
+    }
+  }),
 
   // Update Email Verify
   verify_email: Joi.object({
@@ -126,10 +149,10 @@ exports.actions = {
     reset_expiry: exports.schema.reset_expiry.valid(null).default(null)
   })
   .requiredKeys('password')
-  .optionalKeys('reset_token', 'reset_expiry'),
-
+  .optionalKeys('reset_token', 'reset_expiry')
 };
 
 exports.indexes = [
   [ { email: 1 }, { unique: true, sparse: false } ],
+  // [ { 'permissions.org_id': 1 }, { unique: true, sparse: false } ],
 ];

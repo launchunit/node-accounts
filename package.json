@@ -9,7 +9,8 @@
   "dependencies": {
     "deep-freeze": "0.0.1",
     "joi": "^7.2.3",
-    "lodash": "^4.2.1"
+    "lodash": "^4.2.1",
+    "joi-helpers": "git@github.com:launchunit/joi-helpers.git"
   },
   "devDependencies": {
     "ava": "^0.7.0",
