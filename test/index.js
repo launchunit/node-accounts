@@ -1,36 +1,43 @@
 
-const test = require('ava'),
-  Mongodb = require('mongodb-client');
 
+
+const test = require('ava'),
+  mongoDB = require('mongodb-client');
 
 
 // Connect to Mongodb:
-test.before(t => {
+test.before.serial(t => {
 
-  // Load the Models
-  Mongodb.loadModels('../models');
+  return new Promise(resolve => {
 
-  // Connect to Mongodb
-  return new Promise((resolve) => {
-
-    return Mongodb.connect({
+    return mongoDB.connect({
       mongoUrl: process.env.MONGO_URL
     })
-    .then(function(db) {
+    .then(db => {
 
-      global.DB = db;
+      // Load the Lib
+      return require('../')({
+        db: db.db
+      })
+      .then(services => {
 
-      // Fake Delay
-      setTimeout(() => {
-        resolve()
-      }, 1000);
+        // Load Stuff Globally
+        global.DB = db;
+        global.services = services;
+
+        return resolve();
+      });
 
     });
   });
+
 });
 
-// Models
-// require('./account_model');
-// require('./group_model');
-// require('./org_model');
-require('./permission_model');
+// Load Tests
+require('./models/account');
+require('./models/group');
+require('./models/org');
+require('./models/permission');
+
+// Lib
+require('./lib/password_model');

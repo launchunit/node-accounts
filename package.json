@@ -7,10 +7,12 @@
     "test": "ava test/index.js"
   },
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "deep-freeze": "0.0.1",
+    "ioredis": "^1.15.0",
     "joi": "^7.2.3",
-    "lodash": "^4.2.1",
-    "joi-helpers": "git@github.com:launchunit/joi-helpers.git"
+    "joi-helpers": "git@github.com:launchunit/joi-helpers.git",
+    "lodash": "^4.2.1"
   },
   "devDependencies": {
     "ava": "^0.7.0",
