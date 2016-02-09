@@ -12,7 +12,7 @@ const _ = require('lodash'),
 
 /**
  * @params {Db Instance} opts.db (Required)
- * @params {Object} opts.logger (Required)
+ * @params {Object} opts.logger (Optional)
  *
  * @return {Promise}
  * @public
@@ -25,11 +25,14 @@ module.exports = opts => {
 
     // Load the Models
     mongoDB.loadModels(__dirname + '/models');
-    mongoDB.initModels(opts);
+    mongoDB.initModels({
+      db: opts.db.db || opts.db,
+      logger: opts.logger
+    });
 
-    // Load Services
+    // Return Services
     return resolve({
-      account: require('./services/account')
+      account: require('./services/account')(opts.db)
     });
 
   });

@@ -5,7 +5,7 @@ const inspect = require('util').inspect,
   test = require('ava');
 
 
-test.serial.cb('Testing Account Model (Reset_Password)', t => {
+test.serial.cb('Account Model (Reset_Password)', t => {
 
   const Method = DB.collections.account.methods.reset_password;
   var Input = {}, Result;
@@ -15,33 +15,33 @@ test.serial.cb('Testing Account Model (Reset_Password)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
-  t.ok(Result.error.details[0].path === 'reset_token');
-  t.ok(Result.error.details[1].path === 'reset_expiry');
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
+  t.ok(Result.error[0].path === 'reset_token');
+  t.ok(Result.error[1].path === 'reset_expiry');
 
   // Test #2
   Input = { reset_expiry: null };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
-  t.ok(Result.error.details[0].path === 'reset_token');
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
+  t.ok(Result.error[0].path === 'reset_token');
 
   // Test #3
   Input = { reset_token: null };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
-  t.ok(Result.error.details[0].path === 'reset_expiry');
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
+  t.ok(Result.error[0].path === 'reset_expiry');
 
   // Test #4
   Input = { reset_token: 'sdfsdf' };
   Result = joiHelpers.validate(Method, Input);
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #5
   Input = {
@@ -50,8 +50,8 @@ test.serial.cb('Testing Account Model (Reset_Password)', t => {
   };
   Result = joiHelpers.validate(Method, Input);
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #6
   Input = {
@@ -82,8 +82,8 @@ test.serial.cb('Testing Account Model (Reset_Password)', t => {
   };
   Result = joiHelpers.validate(Method, Input);
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #9
   Input = {
@@ -92,15 +92,15 @@ test.serial.cb('Testing Account Model (Reset_Password)', t => {
   };
   Result = joiHelpers.validate(Method, Input);
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Print
   // console.log(inspect(Result, { depth: null }));
   t.end();
 });
 
-test.serial.cb('Testing Account Model (Login)', t => {
+test.serial.cb('Account Model (Login)', t => {
 
   const Method = DB.collections.account.methods.login;
   var Input = {}, Result;
@@ -120,8 +120,8 @@ test.serial.cb('Testing Account Model (Login)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -139,7 +139,7 @@ test.serial.cb('Testing Account Model (Login)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Account Model (Create_Account)', t => {
+test.serial.cb('Account Model (Create_Account)', t => {
 
   const Method = DB.collections.account.methods.create_account;
   var Input = {}, Result;
@@ -149,8 +149,8 @@ test.serial.cb('Testing Account Model (Create_Account)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #2
   Input = {
@@ -158,8 +158,8 @@ test.serial.cb('Testing Account Model (Create_Account)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #3
   Input = {
@@ -167,8 +167,8 @@ test.serial.cb('Testing Account Model (Create_Account)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {
@@ -178,8 +178,8 @@ test.serial.cb('Testing Account Model (Create_Account)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #5
   Input = {
@@ -207,8 +207,8 @@ test.serial.cb('Testing Account Model (Create_Account)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #6
   Input = {
@@ -234,7 +234,7 @@ test.serial.cb('Testing Account Model (Create_Account)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Account Model (Update_Active)', t => {
+test.serial.cb('Account Model (Update_Active)', t => {
 
   const Method = DB.collections.account.methods.update_active;
   var Input = {}, Result;
@@ -244,8 +244,8 @@ test.serial.cb('Testing Account Model (Update_Active)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #2
   Input = {
@@ -253,8 +253,8 @@ test.serial.cb('Testing Account Model (Update_Active)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -274,7 +274,7 @@ test.serial.cb('Testing Account Model (Update_Active)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Account Model (Profile)', t => {
+test.serial.cb('Account Model (Profile)', t => {
 
   const Method = DB.collections.account.methods.profile;
   var Input = {}, Result;
@@ -284,8 +284,8 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #2
   Input = {
@@ -293,8 +293,8 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -302,7 +302,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {
@@ -310,7 +310,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
   // Test #5
   Input = {
@@ -319,7 +319,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 2);
+  t.ok(Result.error.length === 2);
 
   // Test #6
   Input = {
@@ -328,7 +328,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 2);
+  t.ok(Result.error.length === 2);
 
   // Test #7
   Input = {
@@ -346,7 +346,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
   // Test #9
   Input = {
@@ -354,7 +354,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
   // Test #10
   Input = {
@@ -371,7 +371,7 @@ test.serial.cb('Testing Account Model (Profile)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
 
   // Print

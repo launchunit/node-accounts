@@ -4,7 +4,7 @@ const inspect = require('util').inspect,
   test = require('ava');
 
 
-test.serial.cb('Testing Group Model (Create_Group)', t => {
+test.serial.cb('Group Model (Create_Group)', t => {
 
   const Method = DB.collections.group.methods.create_group;
   var Input = {}, Result;
@@ -14,8 +14,8 @@ test.serial.cb('Testing Group Model (Create_Group)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input);
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #2
   Input = {
@@ -23,8 +23,8 @@ test.serial.cb('Testing Group Model (Create_Group)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #3
   Input = {
@@ -32,8 +32,8 @@ test.serial.cb('Testing Group Model (Create_Group)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #4
   Input = {
@@ -42,8 +42,8 @@ test.serial.cb('Testing Group Model (Create_Group)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #5
   Input = {
@@ -67,7 +67,7 @@ test.serial.cb('Testing Group Model (Create_Group)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Group Model (Update_Active)', t => {
+test.serial.cb('Group Model (Update_Active)', t => {
 
   const Method = DB.collections.group.methods.update_active;
   var Input = {}, Result;
@@ -77,8 +77,8 @@ test.serial.cb('Testing Group Model (Update_Active)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #2
   Input = {
@@ -86,8 +86,8 @@ test.serial.cb('Testing Group Model (Update_Active)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -107,7 +107,7 @@ test.serial.cb('Testing Group Model (Update_Active)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Group Model (Update_Group)', t => {
+test.serial.cb('Group Model (Update_Group)', t => {
 
   const Method = DB.collections.group.methods.update_group;
   var Input = {}, Result;
@@ -117,8 +117,8 @@ test.serial.cb('Testing Group Model (Update_Group)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #2
   Input = {
@@ -126,8 +126,8 @@ test.serial.cb('Testing Group Model (Update_Group)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -135,7 +135,7 @@ test.serial.cb('Testing Group Model (Update_Group)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {

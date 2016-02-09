@@ -8,7 +8,7 @@
 const _ = require('lodash'),
   Joi = require('joi'),
   joiHelpers = require('joi-helpers'),
-  Roles = require('../constants/roles').roles;
+  Roles = require('../lib/roles').roles;
 
 
 /**

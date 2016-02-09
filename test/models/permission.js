@@ -4,7 +4,7 @@ const inspect = require('util').inspect,
   test = require('ava');
 
 
-test.serial.cb('Testing Permission Model (Create_Permission)', t => {
+test.serial.cb('Permission Model (Create_Permission)', t => {
 
   const Method = DB.collections.permission.methods.create_permission;
   var Input = {}, Result;
@@ -14,8 +14,8 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #2
   Input = {
@@ -23,8 +23,8 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #3
   Input = {
@@ -33,8 +33,8 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {
@@ -44,8 +44,8 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #5
   Input = {
@@ -55,8 +55,8 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #6
   Input = {
@@ -66,8 +66,8 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #6
   Input = {
@@ -91,7 +91,7 @@ test.serial.cb('Testing Permission Model (Create_Permission)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Permission Model (Update_Roles)', t => {
+test.serial.cb('Permission Model (Update_Roles)', t => {
 
   const Method = DB.collections.permission.methods.update_roles;
   var Input = {}, Result;
@@ -101,8 +101,8 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #2
   Input = {
@@ -110,8 +110,8 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #3
   Input = {
@@ -120,8 +120,8 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {
@@ -131,8 +131,8 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #5
   Input = {
@@ -142,8 +142,8 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #6
   Input = {
@@ -153,8 +153,8 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #6
   Input = {
@@ -177,7 +177,7 @@ test.serial.cb('Testing Permission Model (Update_Roles)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Permission Model (Update_Groups)', t => {
+test.serial.cb('Permission Model (Update_Groups)', t => {
 
   const Method = DB.collections.permission.methods.update_groups;
   var Input = {}, Result;
@@ -187,8 +187,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #2
   Input = {
@@ -196,8 +196,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 3);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 3);
 
   // Test #3
   Input = {
@@ -206,8 +206,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {
@@ -217,8 +217,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #5
   Input = {
@@ -228,8 +228,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #6
   Input = {
@@ -239,8 +239,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #7
   Input = {
@@ -250,8 +250,8 @@ test.serial.cb('Testing Permission Model (Update_Groups)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #8
   Input = {

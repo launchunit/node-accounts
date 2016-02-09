@@ -4,7 +4,7 @@ const inspect = require('util').inspect,
   test = require('ava');
 
 
-test.serial.cb('Testing Org Model (Create_Org)', t => {
+test.serial.cb('Org Model (Create_Org)', t => {
 
   const Method = DB.collections.org.methods.create_org;
   var Input = {}, Result;
@@ -14,8 +14,8 @@ test.serial.cb('Testing Org Model (Create_Org)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input);
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #2
   Input = {
@@ -23,8 +23,8 @@ test.serial.cb('Testing Org Model (Create_Org)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #3
   Input = {
@@ -32,8 +32,8 @@ test.serial.cb('Testing Org Model (Create_Org)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Test #4
   Input = {
@@ -55,7 +55,7 @@ test.serial.cb('Testing Org Model (Create_Org)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Org Model (Update_Active)', t => {
+test.serial.cb('Org Model (Update_Active)', t => {
 
   const Method = DB.collections.org.methods.update_active;
   var Input = {}, Result;
@@ -65,8 +65,8 @@ test.serial.cb('Testing Org Model (Update_Active)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #2
   Input = {
@@ -74,8 +74,8 @@ test.serial.cb('Testing Org Model (Update_Active)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -95,7 +95,7 @@ test.serial.cb('Testing Org Model (Update_Active)', t => {
   t.end();
 });
 
-test.serial.cb('Testing Org Model (Update_Org)', t => {
+test.serial.cb('Org Model (Update_Org)', t => {
 
   const Method = DB.collections.org.methods.update_org;
   var Input = {}, Result;
@@ -105,8 +105,8 @@ test.serial.cb('Testing Org Model (Update_Org)', t => {
   Input = {};
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #2
   Input = {
@@ -114,8 +114,8 @@ test.serial.cb('Testing Org Model (Update_Org)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Test #3
   Input = {
@@ -123,7 +123,7 @@ test.serial.cb('Testing Org Model (Update_Org)', t => {
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
-  t.ok(Result.error.details.length === 1);
+  t.ok(Result.error.length === 1);
 
   // Test #4
   Input = {

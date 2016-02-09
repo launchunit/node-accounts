@@ -9,13 +9,13 @@ const Accounts = require('node-accounts');
 
 /**
  * @params {Db Instance} opts.db (Required)
- * @params {Object} opts.logger (Required)
+ * @params {Object} opts.logger (Optional)
  *
  * @return {Promise}
  * @public
  */
 Accounts({
-  mongoUrl: 'mongodb://tester:tester@dbhost'
+  db: db
 })
 .then(function(services) {
   console.log(services);
@@ -25,7 +25,7 @@ Accounts({
 });
 ```
 
-#### Build-In-Roles
+#### Built-In-Roles
 
 ```js
 {

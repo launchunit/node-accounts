@@ -15,8 +15,8 @@ test.serial('Password Model (No Input)', t => {
   Input = {};
   Result = joiHelpers.validate(Model, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Print
   // console.log(inspect(Result, { depth: null }));
@@ -32,8 +32,8 @@ test.serial('Password Model (Only Password But Short)', t => {
   };
   Result = joiHelpers.validate(Model, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 2);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
 
   // Print
   // console.log(inspect(Result, { depth: null }));
@@ -49,8 +49,8 @@ test.serial('Password Model (Only Password)', t => {
   };
   Result = joiHelpers.validate(Model, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Print
   // console.log(inspect(Result, { depth: null }));
@@ -63,12 +63,12 @@ test.serial('Password Model (Password & Password Confirm Do Not Match)', t => {
   // Test #1
   Input = {
     password: 'superman',
-    passwordConfirm: 'super'
+    password_confirm: 'super'
   };
   Result = joiHelpers.validate(Model, Input)
   t.ok(Result.error);
-  t.ok(Array.isArray(Result.error.details));
-  t.ok(Result.error.details.length === 1);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
 
   // Print
   // console.log(inspect(Result, { depth: null }));
@@ -81,11 +81,11 @@ test.serial('Password Model (Password & Password Confirm Match)', t => {
   // Test #1
   Input = {
     password: 'superman',
-    passwordConfirm: 'superman'
+    password_confirm: 'superman'
   };
   Result = joiHelpers.validate(Model, Input)
   t.ok(Result.error === null);
-  t.ok(Result.value.passwordConfirm === undefined);
+  t.ok(Result.value.password_confirm === undefined);
   t.ok(Result.value.password === 'superman');
 
   // Print

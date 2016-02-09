@@ -8,40 +8,64 @@
 const _ = require('lodash'),
   joiHelpers = require('joi-helpers'),
   Joi = require('joi'),
+  crypto = require('../lib/crypto'),
   passwordModel = require('../lib/password_model');
 
 
-/**
- * @private
- */
+module.exports = db => {
+
+  /**
+   * @params {String} input.email
+   * @params {Object} input.password
+   * @params {Object} input.password_confirm
+   *
+   * @public
+   */
+  function createAccount(input) {
+
+    input = input || {};
+
+    return new Promise((resolve, reject) => {
+
+      const checkPassword = joiHelpers.validate(passwordModel, input);
+
+      if (checkPassword.error === null) {
+
+        crypto.hash(input.password)
+        .then(hashedPassword => {
+
+          const validate = joiHelpers.validate(
+              db.collections.account.methods.create_account,
+              Object.assign({}, input, {
+                password: hashedPassword
+              }));
 
 
-/**
- * @params {String} input.email
- * @params {Object} input.password
- * @params {Object} input.passwordConfirm
- *
- * @public
- */
-exports.createAccount = input => {
+          if (validate.error) {
+            delete validate.value;
+            return resolve(validate);
+          }
 
-  return new Promise((resolve, reject) => {
+          console.log(validate);
 
-    const checkPassword = joiHelpers.validate(passwordModel, input);
+        })
+        .catch(err => {
+          return reject(err);
+        });
 
-    if (checkPassword.error === null) {
+      }
+
+      else {
+        return resolve({ error: checkPassword.error });
+      }
+
+    });
+  };
 
 
-    }
-
-    else {
-      return resolve(checkPassword.error.details);
-    }
-
-    // Bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
-    //   if (err) return reject(err);
-    //   return resolve(hashedPassword);
-    // });
-
-  });
+  // Return
+  return { createAccount };
 };
+
+
+

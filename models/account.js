@@ -9,7 +9,7 @@ const _ = require('lodash'),
   Joi = require('joi'),
   joiHelpers = require('joi-helpers'),
   Timezones = _.map(_.keys(
-    require('../constants/timezones')), _.toLower);
+    require('../lib/timezones')), _.toLower);
 
 
 /**
