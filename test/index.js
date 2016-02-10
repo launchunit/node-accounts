@@ -4,32 +4,23 @@
 const test = require('ava'),
   mongoDB = require('mongodb-client');
 
+// Global Logger
+require('express-logger')({ level: 'debug' });
+
 
 // Connect to Mongodb:
 test.before.serial(t => {
 
-  return new Promise(resolve => {
-
-    return mongoDB.connect({
-      mongoUrl: process.env.MONGO_URL,
-      logger: false
-    })
-    .then(db => {
-
-      // Load the Lib
-      return require('../')({
-        db: db
-      })
-      .then(services => {
-
-        // Load Stuff Globally
-        global.DB = db;
-        global.Services = services;
-
-        return resolve();
-      });
-
-    });
+  return mongoDB.connect({
+    mongoUrl: process.env.MONGO_URL,
+    debug: false
+  })
+  .then(db => {
+    global.DB = db;
+    return require('../')({ db: db });
+  })
+  .then(services => {
+    global.Services = services;
   });
 
 });
@@ -40,8 +31,9 @@ test.before.serial(t => {
 // require('./models/org');
 // require('./models/permission');
 
-// Lib
+// // Lib
 // require('./lib/password_model');
+// require('./lib/crypto');
 
-// // Services
+// Services
 require('./services/account');

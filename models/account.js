@@ -20,7 +20,7 @@ exports.name = 'account';
 exports.schema = {
 
   // Basics
-  email: Joi.string().lowercase().trim().email()
+  email: Joi.string().lowercase().trim().email({ minDomainAtoms: 2 })
             .label('Email'),
 
   password:  Joi.string().trim().min(10)

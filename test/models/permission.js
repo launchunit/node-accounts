@@ -86,7 +86,7 @@ test.serial.cb('Permission Model (Create_Permission)', t => {
   t.ok(Result.value.some === undefined);
 
   // Print
-  console.log(inspect(Result, { depth: null }));
+  // console.log(inspect(Result, { depth: null }));
 
   t.end();
 });
@@ -172,7 +172,7 @@ test.serial.cb('Permission Model (Update_Roles)', t => {
   t.ok(Result.value.some === undefined);
 
   // Print
-  console.log(inspect(Result, { depth: null }));
+  // console.log(inspect(Result, { depth: null }));
 
   t.end();
 });
@@ -285,7 +285,7 @@ test.serial.cb('Permission Model (Update_Groups)', t => {
 
 
   // Print
-  console.log(inspect(Result, { depth: null }));
+  // console.log(inspect(Result, { depth: null }));
 
   t.end();
 });

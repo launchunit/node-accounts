@@ -50,7 +50,7 @@ test.serial.cb('Org Model (Create_Org)', t => {
   t.ok(Result.value.some === undefined);
 
   // Print
-  console.log(inspect(Result, { depth: null }));
+  // console.log(inspect(Result, { depth: null }));
 
   t.end();
 });
@@ -147,7 +147,7 @@ test.serial.cb('Org Model (Update_Org)', t => {
 
 
   // Print
-  console.log(inspect(Result, { depth: null }));
+  // console.log(inspect(Result, { depth: null }));
 
   t.end();
 });

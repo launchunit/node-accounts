@@ -12,10 +12,12 @@
     "ioredis": "^1.15.0",
     "joi": "^7.2.3",
     "joi-helpers": "git@github.com:launchunit/joi-helpers.git",
+    "promise-helpers": "git@github.com:launchunit/promise-helpers.git",
     "lodash": "^4.2.1"
   },
   "devDependencies": {
     "ava": "^0.7.0",
+    "express-logger": "git@github.com:launchunit/express-logger.git",
     "mongodb-client": "git@github.com:launchunit/mongodb-client.git",
     "node-uuid": "^1.4.7"
   }

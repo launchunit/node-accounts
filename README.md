@@ -1,6 +1,9 @@
 # node-accounts
 
+__Note:__ Assumes [express-logger](https://github.com/launchunit/express-logger) is running.
+
 ----
+
 
 ## Usage
 
@@ -9,7 +12,6 @@ const Accounts = require('node-accounts');
 
 /**
  * @params {Db Instance} opts.db (Required)
- * @params {Object} opts.logger (Optional)
  *
  * @return {Promise}
  * @public
@@ -18,7 +20,23 @@ Accounts({
   db: db
 })
 .then(function(services) {
-  console.log(services);
+
+  // services.account
+
+  /**
+   * @params {String} input.email (Required)
+   * @params {Object} input.password (Required)
+   * @params {Object} input.password_confirm (Required)
+   *
+   * @params {Object} input.active (Optional Default=true)
+   * @params {Object} input.timezone (Optional)
+   * @params {Object} input.email_verified (Optional)
+   *
+   * @public
+   */
+  function createAccount(input)
+
+
 })
 .catch(function(e) {
   console.log(e);
