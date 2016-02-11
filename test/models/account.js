@@ -100,9 +100,9 @@ test.serial.cb('Account Model (Reset_Password)', t => {
   t.end();
 });
 
-test.serial.cb('Account Model (Login)', t => {
+test.serial.cb('Account Model (Update_Login)', t => {
 
-  const Method = DB.collections.account.methods.login;
+  const Method = DB.collections.account.methods.update_login;
   var Input = {}, Result;
 
 
@@ -163,7 +163,7 @@ test.serial.cb('Account Model (Create_Account)', t => {
 
   // Test #3
   Input = {
-    email: 'kev@gmailcom'
+    email: 'kev@gmail.com',
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
@@ -172,7 +172,7 @@ test.serial.cb('Account Model (Create_Account)', t => {
 
   // Test #4
   Input = {
-    email: 'kev@gmailcom',
+    email: 'kev@gmail.com',
     password: 'sfsdfsd',
     some: 'ssss'
   };
@@ -183,7 +183,7 @@ test.serial.cb('Account Model (Create_Account)', t => {
 
   // Test #5
   Input = {
-    email: 'kev@gmailcom',
+    email: 'kev@gmail.com',
     password: '6cbe615c106f422d23669b610b564800',
     some: 'ssss'
   };
@@ -200,7 +200,7 @@ test.serial.cb('Account Model (Create_Account)', t => {
 
   // Test #6
   Input = {
-    email: 'kev@gmailcom',
+    email: 'kev@gmail.com',
     password: '6cbe615c106f422d23669b610b564800',
     some: 'ssss',
     timezone: 'blah'
@@ -212,7 +212,7 @@ test.serial.cb('Account Model (Create_Account)', t => {
 
   // Test #6
   Input = {
-    email: 'kev@gmailcom',
+    email: 'kev@gmail.com',
     password: '6cbe615c106f422d23669b610b564800',
     some: 'ssss',
     timezone: 'america/phoenix    '
@@ -234,49 +234,9 @@ test.serial.cb('Account Model (Create_Account)', t => {
   t.end();
 });
 
-test.serial.cb('Account Model (Update_Active)', t => {
+test.serial.cb('Account Model (Update_Account)', t => {
 
-  const Method = DB.collections.account.methods.update_active;
-  var Input = {}, Result;
-
-
-  // Test #1
-  Input = {};
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 1);
-
-  // Test #2
-  Input = {
-    active: 'sss'
-  };
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 1);
-
-  // Test #3
-  Input = {
-    active: false,
-    some: 'blah'
-  };
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error === null);
-  t.ok(Result.value.active === false);
-  t.ok(Result.value.updated instanceof Date);
-  t.ok(Result.value.some === undefined);
-
-
-  // Print
-  // console.log(inspect(Result, { depth: null }));
-
-  t.end();
-});
-
-test.serial.cb('Account Model (Profile)', t => {
-
-  const Method = DB.collections.account.methods.profile;
+  const Method = DB.collections.account.methods.update_account;
   var Input = {}, Result;
 
 
@@ -373,9 +333,127 @@ test.serial.cb('Account Model (Profile)', t => {
   t.ok(Result.error);
   t.ok(Result.error.length === 1);
 
+  // Test #12
+  Input = {
+    active: false,
+    gender: 'Male '
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error === null);
+  t.ok(Result.value.updated instanceof Date);
+  t.ok(Result.value.gender === 'male');
+  t.ok(Result.value.active === false);
 
   // Print
   // console.log(inspect(Result, { depth: null }));
 
   t.end();
+});
+
+test.serial('Account Model (Password_Confirm)', t => {
+
+  const Method = DB.collections.account.methods.confirm_password;
+  var Input = {}, Result;
+
+  // Test #1
+  Input = {};
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
+
+  // Test #2
+  Input = {
+    password: 'sss'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 2);
+
+  // Test #3
+  Input = {
+    password: 'superman'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
+
+  // Test #4
+  Input = {
+    password: 'superman',
+    password_confirm: 'super'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
+
+  // Test #5
+  Input = {
+    password: 'superman',
+    password_confirm: 'superman'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error === null);
+  t.ok(Result.value.password_confirm === undefined);
+  t.ok(Result.value.password === 'superman');
+
+
+  // Print
+  // console.log(inspect(Result, { depth: null }));
+});
+
+test.serial('Account Model (Verify_Email)', t => {
+
+  const Method = DB.collections.account.methods.verify_email;
+  var Input = {}, Result;
+
+  // Test #1
+  Input = {};
+  Result = joiHelpers.validate(Method, Input);
+  t.ok(Result.error === null);
+  t.ok(Result.value.email_verified === true);
+  t.ok(Result.value.updated instanceof Date);
+
+  // Test #2
+  Input = {
+    some: 'sss'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error === null);
+  t.ok(Result.value.email_verified === true);
+  t.ok(Result.value.updated instanceof Date);
+
+  // Test #3
+  Input = {
+    email_verified: 'superman'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
+
+  // Test #4
+  Input = {
+    email_verified: false
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
+
+  // Test #5
+  Input = {
+    email_verified: true
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error === null);
+  t.ok(Result.value.email_verified === true);
+  t.ok(Result.value.updated instanceof Date);
+
+
+  // Print
+  console.log(inspect(Result, { depth: null }));
 });

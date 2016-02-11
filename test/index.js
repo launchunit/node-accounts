@@ -25,6 +25,11 @@ test.before.serial(t => {
 
 });
 
+// Fake Delay
+// test.before.serial.cb(t => {
+  // setTimeout(() => { t.end() }, 2500);
+// });
+
 // Load Tests
 // require('./models/account');
 // require('./models/group');
@@ -32,8 +37,10 @@ test.before.serial(t => {
 // require('./models/permission');
 
 // // Lib
-// require('./lib/password_model');
 // require('./lib/crypto');
 
 // Services
-require('./services/account');
+// require('./services/account_create_account');
+// require('./services/account_login');
+// require('./services/account_update_account');
+require('./services/account_verify_email');

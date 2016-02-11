@@ -2,11 +2,15 @@
 const inspect = require('util').inspect,
   test = require('ava');
 
+var Fn;
+test.before.serial(t => {
+  Fn = Services.account.createAccount;
+});
+
 
 test.serial('Account Services createAccount (No Arguments)', t => {
 
   var Input = {};
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -26,7 +30,6 @@ test.serial('Account Services createAccount (Only Password - Short Password)', t
   var Input = {
     password: 'kevin'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -46,7 +49,6 @@ test.serial('Account Services createAccount (No Password Confirm)', t => {
   var Input = {
     password: 'kevin123'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -66,7 +68,6 @@ test.serial('Account Services createAccount (Password & Password Confirm Dont Ma
     password: 'kevin123',
     password_confirm: 'kevin124'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -86,7 +87,6 @@ test.serial('Account Services createAccount (Password & Password Confirm Match B
     password: 'kevin123',
     password_confirm: 'kevin123'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -107,7 +107,6 @@ test.serial('Account Services createAccount (Password & Password Confirm Match a
     password_confirm: 'kevin123',
     email: 'kat@gmailcom'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -128,7 +127,6 @@ test.serial('Account Services createAccount (Password & Password Confirm Match a
     password_confirm: 'kevin123',
     email: 'kevin@gmail.com'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -149,7 +147,6 @@ test.serial('Account Services createAccount (Password & Password Confirm Match a
     password_confirm: 'kevin123',
     email: `kevin_${Date.now()}@gmail.com`
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {
@@ -171,7 +168,6 @@ test.serial('Account Services createAccount (Invalid Timezone)', t => {
     email: `kevin_${Date.now()}@gmail.com`,
     timezone: 'blaasss'
   };
-  var Fn = Services.account.createAccount;
 
   return Fn(Input)
   .then(Result => {

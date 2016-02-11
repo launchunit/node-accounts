@@ -29,7 +29,7 @@ exports.schema = {
                 }}}),
 
   // Meta
-  active: Joi.boolean().default(true),
+  active: Joi.boolean(),
   email_verified: Joi.boolean().default(false),
   last_login: Joi.date().min('now').default(new Date),
 
@@ -65,6 +65,94 @@ exports.schema = {
 
 exports.methods = {
 
+  // Create New Account
+  create_account: Joi.object({
+    email: exports.schema.email,
+    password: exports.schema.password,
+    email_verified: exports.schema.email_verified,
+    active: exports.schema.active.default(true),
+    created: exports.schema.created,
+    updated: exports.schema.updated,
+    timezone: exports.schema.timezone.default(Timezones[6]), // Default=EST
+    reset_token: exports.schema.reset_token.valid(null).default(null),
+    reset_expiry: exports.schema.reset_expiry.valid(null).default(null)
+  })
+  .requiredKeys('email', 'password')
+  .optionalKeys('reset_token', 'reset_expiry', 'timezone'),
+
+  // Confirm Password
+  confirm_password: Joi.object({
+    password: Joi.string().min(6).label('Password'),
+    password_confirm: Joi.any().valid(Joi.ref('password'))
+                         .label('Password Confirmation').strip()
+  })
+  .requiredKeys('password', 'password_confirm')
+  .options({
+    language: {
+      string: {
+        min: '{{key}} must be at least {{limit}} characters long.'
+      },
+      any: {
+        allowOnly: '{{key}} does not match Password.'
+      }
+    }
+  }),
+
+  // Login
+  login: Joi.object({
+    email: exports.schema.email,
+    password: Joi.string().min(6).label('Password')
+  })
+  .requiredKeys('email', 'password')
+  .options({
+    language: {
+      any: {
+        required: '!!Invalid email/password.'
+      },
+      string: {
+        min: '!!Invalid email/password.'
+      }
+    }
+  }),
+
+  // Update Login
+  update_login: Joi.object({
+    last_login: exports.schema.last_login.default(new Date),
+    reset_token: exports.schema.reset_token.default(null).valid(null),
+    reset_expiry: exports.schema.reset_expiry.default(null).valid(null)
+  })
+  .optionalKeys('last_login', 'reset_token', 'reset_expiry'),
+
+  // Update Account
+  update_account: Joi.object({
+    email: exports.schema.email,
+    active: exports.schema.active,
+
+    // Profile
+    first_name: exports.schema.first_name,
+    last_name: exports.schema.last_name,
+    picture: exports.schema.picture,
+    bio: exports.schema.bio,
+    gender: exports.schema.gender,
+    updated: exports.schema.updated,
+    timezone: exports.schema.timezone
+  })
+  .min(2)
+  .options({
+    language: {
+      object: {
+        min: '!!Account object must have at least 1 field to update.',
+      }
+    }
+  }),
+
+  // Update Verify Email
+  verify_email: Joi.object({
+    email_verified: exports.schema.email_verified.valid(true).default(true),
+    updated: exports.schema.updated,
+  })
+  .optionalKeys('email_verified'),
+
   // Password Reset
   reset_password: Joi.object({
     reset_token: exports.schema.reset_token,
@@ -84,68 +172,6 @@ exports.methods = {
       }
     }
   }),
-
-  // Login
-  login: Joi.object({
-    last_login: exports.schema.last_login.default(new Date),
-    reset_token: exports.schema.reset_token.default(null).valid(null),
-    reset_expiry: exports.schema.reset_expiry.default(null).valid(null)
-  })
-  .optionalKeys('last_login', 'reset_token', 'reset_expiry'),
-
-  // Create New Account
-  create_account: Joi.object({
-    email: exports.schema.email,
-    password: exports.schema.password,
-    email_verified: exports.schema.email_verified,
-    active: exports.schema.active,
-    created: exports.schema.created,
-    updated: exports.schema.updated,
-    timezone: exports.schema.timezone.default(Timezones[6]), // Default=EST
-    reset_token: exports.schema.reset_token.valid(null).default(null),
-    reset_expiry: exports.schema.reset_expiry.valid(null).default(null)
-  })
-  .requiredKeys('email', 'password')
-  .optionalKeys('reset_token', 'reset_expiry', 'timezone'),
-
-  // Profile
-  profile: Joi.object({
-    first_name: exports.schema.first_name,
-    last_name: exports.schema.last_name,
-    picture: exports.schema.picture,
-    bio: exports.schema.bio,
-    gender: exports.schema.gender,
-    updated: exports.schema.updated,
-    timezone: exports.schema.timezone
-  })
-  .min(2)
-  .options({
-    language: {
-      object: {
-        min: '!!Profile object must have at least 1 field to update.',
-      }
-    }
-  }),
-
-  // Update Email
-  update_email: Joi.object({
-    email: exports.schema.email,
-    updated: exports.schema.updated,
-  })
-  .requiredKeys('email'),
-
-  // Update Email Verify
-  verify_email: Joi.object({
-    email_verified: exports.schema.email_verified.valid(true).default(true),
-    updated: exports.schema.updated,
-  }),
-
-  // Update Account Active
-  update_active: Joi.object({
-    active: exports.schema.active,
-    updated: exports.schema.updated,
-  })
-  .requiredKeys('active'),
 
   // Update Password
   update_password: Joi.object({
