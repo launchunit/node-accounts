@@ -21,7 +21,7 @@ exports.schema = {
   description: Joi.string().trim(),
 
   // Meta
-  active: Joi.boolean().default(true),
+  active: Joi.boolean(),
 
   // Keys
   org_id: joiHelpers.objectId(),
@@ -40,30 +40,24 @@ exports.methods = {
     description: exports.schema.description,
     org_id:  exports.schema.org_id,
     created_by: exports.schema.created_by,
-    active: exports.schema.active,
+    active: exports.schema.active.default(true),
     created: exports.schema.created,
     updated: exports.schema.updated
   })
   .requiredKeys('name', 'created_by', 'org_id'),
 
-  // Update Group Active
-  update_active: Joi.object({
-    active: exports.schema.active,
-    updated: exports.schema.updated,
-  })
-  .requiredKeys('active'),
-
   // Update Group
   update_group: Joi.object({
     name: exports.schema.name,
     description: exports.schema.description,
+    active: exports.schema.active,
     updated: exports.schema.updated,
   })
   .min(2)
   .options({
     language: {
       object: {
-        min: '!!Must have at least 1 field to update.',
+        min: '!!Group object must have at least 1 field to update.',
       }
     }
   }),
@@ -72,5 +66,6 @@ exports.methods = {
 
 exports.indexes = [
   [ { org_id: 1 }, { unique: false, sparse: false } ],
-  [ { org_id: 1, created_by: 1 }, { unique: true, sparse: false } ],
+  [ { created_by: 1 }, { unique: false, sparse: false } ],
+  [ { org_id: 1, created_by: 1 }, { unique: false, sparse: false } ],
 ];

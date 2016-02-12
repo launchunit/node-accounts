@@ -4,11 +4,11 @@ const inspect = require('util').inspect,
 
 var Fn;
 test.before.serial(t => {
-  Fn = Services.account.login;
+  Fn = Services.org.createOrg;
 });
 
 
-test.serial('Account Services login (No Arguments)', t => {
+test.serial('createOrg (No Arguments)', t => {
 
   var Input = {};
 
@@ -23,10 +23,11 @@ test.serial('Account Services login (No Arguments)', t => {
   });
 });
 
-test.serial('Account Services login (Only Password - Short Password)', t => {
+test.serial('createOrg (Name Argument & Invalid account_id)', t => {
 
   var Input = {
-    password: 'kevin'
+    account_id: '56be1d2a54d12187e6ee764x',
+    name: 'super'
   };
 
   return Fn(Input)
@@ -40,11 +41,11 @@ test.serial('Account Services login (Only Password - Short Password)', t => {
   });
 });
 
-test.serial('Account Services login (Password and Invalid Email)', t => {
+test.serial('createOrg (Name Argument & account_id Not Found)', t => {
 
   var Input = {
-    password: 'kevin123',
-    email: 'kat@gmailcom'
+    account_id: '56be1d2a54d12187e6ee764b',
+    name: 'super'
   };
 
   return Fn(Input)
@@ -58,11 +59,29 @@ test.serial('Account Services login (Password and Invalid Email)', t => {
   });
 });
 
-test.serial('Account Services login (Password and Valid Email)', t => {
+test.serial('createOrg (Name Argument & account_id is Not Active)', t => {
 
   var Input = {
-    password: 'kevin123',
-    email: 'kevin@gmail.com'
+    account_id: '56be1d2a54d12187e6ee764e',
+    name: 'super'
+  };
+
+  return Fn(Input)
+  .then(Result => {
+
+    t.ok(Result.error);
+    t.ok(Result.error.length === 1);
+
+    // Print
+    console.log(inspect(Result, { depth: null }));
+  });
+});
+
+test.serial('createOrg (Valid Name and id)', t => {
+
+  Input = {
+    account_id: '56be1d2a54d12187e6ee764d',
+    name: 'superman org'
   };
 
   return Fn(Input)
@@ -70,7 +89,7 @@ test.serial('Account Services login (Password and Valid Email)', t => {
 
     t.ok(Result.error === undefined);
     t.ok(Result.result);
-    t.ok(Result.result._id);
+    t.ok(Result.result.id);
 
     // Print
     // console.log(inspect(Result, { depth: null }));

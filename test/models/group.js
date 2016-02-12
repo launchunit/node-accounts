@@ -67,46 +67,6 @@ test.serial.cb('Group Model (Create_Group)', t => {
   t.end();
 });
 
-test.serial.cb('Group Model (Update_Active)', t => {
-
-  const Method = DB.collections.group.methods.update_active;
-  var Input = {}, Result;
-
-
-  // Test #1
-  Input = {};
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 1);
-
-  // Test #2
-  Input = {
-    active: 'sss'
-  };
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 1);
-
-  // Test #3
-  Input = {
-    active: false,
-    some: 'blah'
-  };
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error === null);
-  t.ok(Result.value.active === false);
-  t.ok(Result.value.updated instanceof Date);
-  t.ok(Result.value.some === undefined);
-
-
-  // Print
-  // console.log(inspect(Result, { depth: null }));
-
-  t.end();
-});
-
 test.serial.cb('Group Model (Update_Group)', t => {
 
   const Method = DB.collections.group.methods.update_group;
@@ -157,6 +117,25 @@ test.serial.cb('Group Model (Update_Group)', t => {
   t.ok(Result.value.name);
   t.ok(Result.value.description === 'super great');
 
+  // Test #6
+  Input = {
+    active: 'sss'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error);
+  t.ok(Array.isArray(Result.error));
+  t.ok(Result.error.length === 1);
+
+  // Test #7
+  Input = {
+    active: false,
+    some: 'blah'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.error === null);
+  t.ok(Result.value.active === false);
+  t.ok(Result.value.updated instanceof Date);
+  t.ok(Result.value.some === undefined);
 
   // Print
   // console.log(inspect(Result, { depth: null }));

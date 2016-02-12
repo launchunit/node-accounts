@@ -15,12 +15,12 @@ module.exports = db => {
 
   /**
    * @params {String} input.email (Required)
-   * @params {Object} input.password (Required)
-   * @params {Object} input.password_confirm (Required)
+   * @params {String} input.password (Required)
+   * @params {String} input.password_confirm (Required)
    *
-   * @params {Object} input.active (Optional Default=true)
-   * @params {Object} input.timezone (Optional)
-   * @params {Object} input.email_verified (Optional)
+   * @params {Boolean} input.active (Optional Default=true)
+   * @params {String} input.timezone (Optional)
+   * @params {Boolean} input.email_verified (Optional)
    *
    * @public
    */
@@ -33,11 +33,13 @@ module.exports = db => {
       const validate = joiHelpers.validate(
         db.collections.account.methods.confirm_password, input);
 
-      if (validate.error === null) {
-        return resolve(crypto.hash(input.password));;
+      // Validate
+      if (validate.error) {
+        delete validate.value;
+        return reject(validate);
       }
 
-      return reject({ error: validate.error });
+      return resolve(crypto.hash(input.password));;
     })
     .then(hashedPassword => {
 
@@ -61,7 +63,7 @@ module.exports = db => {
       return db.collections.account.insertOne(validate.value);
     })
     .then(result => {
-      return { result: { _id: result.insertedId }};
+      return { result: { id: result.insertedId }};
     })
     .catch(promiseHelpers.mongoDone);
   };
@@ -69,7 +71,7 @@ module.exports = db => {
 
   /**
    * @params {String} input.email (Required)
-   * @params {Object} input.password (Required)
+   * @params {String} input.password (Required)
    *
    * @public
    */
@@ -95,14 +97,17 @@ module.exports = db => {
       return resolve(db.collections.account.findOne({
         email: validate.value.email
       }, {
-        fields: { 'password': 1 }
+        fields: { 'password': 1, active: 1 }
       }));
     })
     .then(result => {
 
+      // ToDo:
+      // Deal with an Inactive Account
+
       logger.debug(result);
 
-      constants._id = result._id;
+      constants.id = result._id;
       return crypto.compare(input.password, result.password);
     })
     .then(passwordMatch => {
@@ -122,7 +127,7 @@ module.exports = db => {
         logger.debug(validate.value);
 
         return db.collections.account.updateOne({
-          _id: constants._id
+          id: constants.id
         }, {
           $set: validate.value
         });
@@ -135,16 +140,16 @@ module.exports = db => {
 
     })
     .then(result => {
-      return { result: { _id: constants._id }};
+      return { result: { id: constants.id }};
     })
     .catch(promiseHelpers.mongoDone);
   };
 
 
   /**
-   * @params {String} _id (Required)
-   *
+   * @params {String} input.id (Required)
    * @params {String} input.email (Optional)
+   * @params {Boolean} input.active (Optional)
    * @params {String} input.first_name (Optional)
    * @params {String} input.last_name (Optional)
    * @params {String} input.picture (Optional)
@@ -154,20 +159,24 @@ module.exports = db => {
    *
    * @public
    */
-  function updateAccount(_id, input) {
+  function updateAccount(input) {
 
     input = input || {};
+    const constants = {};
 
     return new Promise((resolve, reject) => {
 
-      // Validate _id
-      const validateId = joiHelpers.validate(objectId, _id);
+      // Validate id
+      const validateId = joiHelpers.validate(objectId,
+                           (input.id || ''));
+
       if (validateId.error) {
         delete validateId.value;
-        return reject(new Error(validateId.error[0].message));
+        return reject(validateId);
       }
-      // Cast _id
-      _id = db.utils.toObjectID(_id);
+
+      // Cast id
+      constants.id = db.utils.toObjectID(validateId.value);
 
 
       const validate = joiHelpers.validate(
@@ -182,7 +191,7 @@ module.exports = db => {
       logger.debug(validate.value);
 
       return resolve(db.collections.account.updateOne({
-        _id: _id
+        _id: constants.id
       }, {
         $set: validate.value
       }));
@@ -191,33 +200,43 @@ module.exports = db => {
     .then(result => {
 
       if (result.matchedCount === 0) {
-        return promiseHelpers.reject(
-           new Error('Id not found, nothing was updated.'));
+        return {
+          error: [{
+            path: 'id',
+            message: 'Id not found, nothing was updated.'
+          }]
+        };
       }
 
-      return { result: { _id: _id }};
+      return { result: { id: constants.id }};
     })
     .catch(promiseHelpers.mongoDone);
   };
 
 
   /**
-   * @params {String} _id (Required)
+   * @params {String} input.id (Required)
    *
    * @public
    */
-  function verifyEmail(_id) {
+  function verifyEmail(input) {
+
+    input = input || {};
+    const constants = {};
 
     return new Promise((resolve, reject) => {
 
-      // Validate _id
-      const validateId = joiHelpers.validate(objectId, _id);
+      // Validate id
+      const validateId = joiHelpers.validate(objectId,
+                           (input.id || ''));
+
       if (validateId.error) {
         delete validateId.value;
-        return reject(new Error(validateId.error[0].message));
+        return reject(validateId);
       }
-      // Cast _id
-      _id = db.utils.toObjectID(_id);
+
+      // Cast id
+      constants.id = db.utils.toObjectID(validateId.value);
 
 
       const validate = joiHelpers.validate(
@@ -232,7 +251,7 @@ module.exports = db => {
       logger.debug(validate.value);
 
       return resolve(db.collections.account.updateOne({
-        _id: _id
+        _id: constants.id
       }, {
         $set: validate.value
       }));
@@ -245,7 +264,7 @@ module.exports = db => {
            new Error('Id not found, nothing was updated.'));
       }
 
-      return { result: { _id: _id }};
+      return { result: { id: constants.id }};
     })
     .catch(promiseHelpers.mongoDone);
   };

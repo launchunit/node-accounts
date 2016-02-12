@@ -8,7 +8,7 @@ test.before.serial(t => {
 });
 
 
-test.serial('Account Services createAccount (No Arguments)', t => {
+test.serial('createAccount (No Arguments)', t => {
 
   var Input = {};
 
@@ -25,7 +25,7 @@ test.serial('Account Services createAccount (No Arguments)', t => {
   });
 });
 
-test.serial('Account Services createAccount (Only Password - Short Password)', t => {
+test.serial('createAccount (Only Password - Short Password)', t => {
 
   var Input = {
     password: 'kevin'
@@ -44,7 +44,7 @@ test.serial('Account Services createAccount (Only Password - Short Password)', t
   });
 });
 
-test.serial('Account Services createAccount (No Password Confirm)', t => {
+test.serial('createAccount (No Password Confirm)', t => {
 
   var Input = {
     password: 'kevin123'
@@ -62,7 +62,7 @@ test.serial('Account Services createAccount (No Password Confirm)', t => {
   });
 });
 
-test.serial('Account Services createAccount (Password & Password Confirm Dont Match)', t => {
+test.serial('createAccount (Password & Password Confirm Dont Match)', t => {
 
   var Input = {
     password: 'kevin123',
@@ -81,7 +81,7 @@ test.serial('Account Services createAccount (Password & Password Confirm Dont Ma
   });
 });
 
-test.serial('Account Services createAccount (Password & Password Confirm Match But No Email)', t => {
+test.serial('createAccount (Password & Password Confirm Match But No Email)', t => {
 
   var Input = {
     password: 'kevin123',
@@ -100,7 +100,7 @@ test.serial('Account Services createAccount (Password & Password Confirm Match B
   });
 });
 
-test.serial('Account Services createAccount (Password & Password Confirm Match and Invalid Email)', t => {
+test.serial('createAccount (Password & Password Confirm Match and Invalid Email)', t => {
 
   var Input = {
     password: 'kevin123',
@@ -120,7 +120,7 @@ test.serial('Account Services createAccount (Password & Password Confirm Match a
   });
 });
 
-test.serial('Account Services createAccount (Password & Password Confirm Match and Valid Email, But Already Exists)', t => {
+test.serial('createAccount (Password & Password Confirm Match and Valid Email, But Already Exists)', t => {
 
   var Input = {
     password: 'kevin123',
@@ -140,7 +140,7 @@ test.serial('Account Services createAccount (Password & Password Confirm Match a
   });
 });
 
-test.serial('Account Services createAccount (Password & Password Confirm Match and Valid Email)', t => {
+test.serial('createAccount (Password & Password Confirm Match and Valid Email)', t => {
 
   var Input = {
     password: 'kevin123',
@@ -153,14 +153,14 @@ test.serial('Account Services createAccount (Password & Password Confirm Match a
 
     t.ok(Result.error === undefined);
     t.ok(Result.result);
-    t.ok(Result.result._id);
+    t.ok(Result.result.id);
 
     // Print
     // console.log(inspect(Result, { depth: null }));
   });
 });
 
-test.serial('Account Services createAccount (Invalid Timezone)', t => {
+test.serial('createAccount (Invalid Timezone)', t => {
 
   var Input = {
     password: 'kevin123',

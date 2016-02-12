@@ -40,7 +40,10 @@ test.before.serial(t => {
 // require('./lib/crypto');
 
 // Services
-// require('./services/account_create_account');
-// require('./services/account_login');
-// require('./services/account_update_account');
-require('./services/account_verify_email');
+// require('./services/create_account');
+// require('./services/login');
+// require('./services/update_account');
+// require('./services/verify_email');
+// require('./services/create_org');
+// require('./services/create_group');
+require('./services/update_org');

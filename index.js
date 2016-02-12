@@ -30,7 +30,9 @@ module.exports = opts => {
 
     // Return Services
     return resolve({
-      account: require('./services/account')(opts.db)
+      account: require('./services/account')(opts.db),
+      org: require('./services/org')(opts.db),
+      group: require('./services/group')(opts.db)
     });
 
   });
