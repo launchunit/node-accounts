@@ -203,7 +203,7 @@ module.exports = db => {
         return {
           error: [{
             path: 'id',
-            message: 'Id not found, nothing was updated.'
+            message: 'Account id not found, nothing was updated.'
           }]
         };
       }
@@ -261,7 +261,7 @@ module.exports = db => {
 
       if (result.matchedCount === 0) {
         return promiseHelpers.reject(
-           new Error('Id not found, nothing was updated.'));
+           new Error('Account id not found, nothing was updated.'));
       }
 
       return { result: { id: constants.id }};

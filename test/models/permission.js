@@ -93,7 +93,7 @@ test.serial.cb('Permission Model (Create_Permission)', t => {
 
 test.serial.cb('Permission Model (Update_Roles)', t => {
 
-  const Method = DB.collections.permission.methods.update_roles;
+  const Method = DB.collections.permission.methods.update_permission;
   var Input = {}, Result;
 
 
@@ -102,7 +102,7 @@ test.serial.cb('Permission Model (Update_Roles)', t => {
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
   t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 3);
+  t.ok(Result.error.length === 2);
 
   // Test #2
   Input = {
@@ -111,7 +111,7 @@ test.serial.cb('Permission Model (Update_Roles)', t => {
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
   t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 3);
+  t.ok(Result.error.length === 2);
 
   // Test #3
   Input = {
@@ -156,11 +156,11 @@ test.serial.cb('Permission Model (Update_Roles)', t => {
   t.ok(Array.isArray(Result.error));
   t.ok(Result.error.length === 1);
 
-  // Test #6
+  // Test #7
   Input = {
     account_id: '56883c825a03cb66533a1781',
     org_id: '56883c825a03cb66533a1781',
-    roles: ['member', 'system.owner'],
+    roles: ['member', 'system.owner', 'crap'],
     some: 'blah'
   };
   Result = joiHelpers.validate(Method, Input)
@@ -171,48 +171,38 @@ test.serial.cb('Permission Model (Update_Roles)', t => {
   t.ok(Result.value.updated instanceof Date);
   t.ok(Result.value.some === undefined);
 
-  // Print
-  // console.log(inspect(Result, { depth: null }));
-
-  t.end();
-});
-
-test.serial.cb('Permission Model (Update_Groups)', t => {
-
-  const Method = DB.collections.permission.methods.update_groups;
-  var Input = {}, Result;
-
-
-  // Test #1
-  Input = {};
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 3);
-
-  // Test #2
-  Input = {
-    account_id: 'sss'
-  };
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 3);
-
-  // Test #3
+  // Test #8
   Input = {
     account_id: '56883c825a03cb66533a1781',
-    org_id: '56883c825a03cb66533a1781'
+    org_id: '56883c825a03cb66533a1781',
+    roles: false,
+    some: 'blah'
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
   t.ok(Array.isArray(Result.error));
   t.ok(Result.error.length === 1);
 
-  // Test #4
+  // Test #9
   Input = {
     account_id: '56883c825a03cb66533a1781',
     org_id: '56883c825a03cb66533a1781',
+    roles: null,
+    some: 'blah'
+  };
+  Result = joiHelpers.validate(Method, Input)
+  t.ok(Result.value.account_id === undefined);
+  t.ok(Result.value.org_id === undefined);
+  t.ok(Result.value.roles === null);
+  t.ok(Result.value.updated instanceof Date);
+  t.ok(Result.value.some === undefined);
+
+  // Test #10
+  Input = {
+    account_id: '56883c825a03cb66533a1781',
+    org_id: '56883c825a03cb66533a1781',
+    roles: null,
+    some: 'blah',
     groups: 'ssfsdfsd'
   };
   Result = joiHelpers.validate(Method, Input)
@@ -220,72 +210,72 @@ test.serial.cb('Permission Model (Update_Groups)', t => {
   t.ok(Array.isArray(Result.error));
   t.ok(Result.error.length === 1);
 
-  // Test #5
+  // Test #11
   Input = {
     account_id: '56883c825a03cb66533a1781',
     org_id: '56883c825a03cb66533a1781',
-    groups: []
+    roles: null,
+    some: 'blah',
+    groups: null
   };
   Result = joiHelpers.validate(Method, Input)
   t.ok(Result.error);
   t.ok(Array.isArray(Result.error));
   t.ok(Result.error.length === 1);
 
-  // Test #6
+  // Test #12
   Input = {
     account_id: '56883c825a03cb66533a1781',
     org_id: '56883c825a03cb66533a1781',
-    groups: ['super']
+    roles: null,
+    some: 'blah',
+    groups: ['ssfsdfsd']
   };
   Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 1);
+  t.ok(Result.value.account_id === undefined);
+  t.ok(Result.value.org_id === undefined);
+  t.ok(Result.value.roles === null);
+  t.ok(Result.value.updated instanceof Date);
+  t.ok(Result.value.some === undefined);
+  t.ok(Array.isArray(Result.value.groups));
 
-  // Test #7
+  // Test #13
   Input = {
     account_id: '56883c825a03cb66533a1781',
     org_id: '56883c825a03cb66533a1781',
+    roles: null,
+    some: 'blah',
     groups: ['56883c825a03cb66533a1781', '56883c825a03cb66533a1781']
   };
   Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error);
-  t.ok(Array.isArray(Result.error));
-  t.ok(Result.error.length === 1);
-
-  // Test #8
-  Input = {
-    account_id: '56883c825a03cb66533a1781',
-    org_id: '56883c825a03cb66533a1781',
-    groups: ['56883c825a03cb66533a1781', 'sssss']
-  };
-  Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error === null);
   t.ok(Result.value.account_id === undefined);
   t.ok(Result.value.org_id === undefined);
-  t.ok(Array.isArray(Result.value.groups));
+  t.ok(Result.value.roles === null);
   t.ok(Result.value.updated instanceof Date);
   t.ok(Result.value.some === undefined);
+  t.ok(Array.isArray(Result.value.groups));
+  t.ok(Result.value.groups.length === 2);
 
-
-  // Test #8
+  // Test #13
   Input = {
     account_id: '56883c825a03cb66533a1781',
     org_id: '56883c825a03cb66533a1781',
-    groups: ['56883c825a03cb66533a1781', 'sssss'],
-    roles: ['member']
+    roles: null,
+    some: 'blah',
+    groups: ['22ss', '56883c825a03cb66533a1781', '56883c825a03cb66533a1781']
   };
   Result = joiHelpers.validate(Method, Input)
-  t.ok(Result.error === null);
   t.ok(Result.value.account_id === undefined);
   t.ok(Result.value.org_id === undefined);
-  t.ok(Array.isArray(Result.value.groups));
+  t.ok(Result.value.roles === null);
   t.ok(Result.value.updated instanceof Date);
-  t.ok(Result.value.roles === undefined);
+  t.ok(Result.value.some === undefined);
+  t.ok(Array.isArray(Result.value.groups));
+  t.ok(Result.value.groups.length === 2);
 
 
   // Print
-  // console.log(inspect(Result, { depth: null }));
+  console.log(inspect(Result, { depth: null }));
 
   t.end();
 });

@@ -138,7 +138,7 @@ module.exports = db => {
         return {
           error: [{
             path: 'id',
-            message: 'Id not found, nothing was updated.'
+            message: 'Org id not found, nothing was updated.'
           }]
         };
       }

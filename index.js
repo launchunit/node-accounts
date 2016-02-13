@@ -6,8 +6,7 @@
  * Module dependencies.
  * @private
  */
-const _ = require('lodash'),
-  mongoDB = require('mongodb-client');
+const mongoDB = require('mongodb-client');
 
 
 /**
@@ -32,7 +31,8 @@ module.exports = opts => {
     return resolve({
       account: require('./services/account')(opts.db),
       org: require('./services/org')(opts.db),
-      group: require('./services/group')(opts.db)
+      group: require('./services/group')(opts.db),
+      permission: require('./services/permission')(opts.db),
     });
 
   });

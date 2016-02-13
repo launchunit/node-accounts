@@ -5,8 +5,7 @@
  * Module dependencies.
  * @private
  */
-const _ = require('lodash'),
-  Joi = require('joi'),
+const Joi = require('joi'),
   joiHelpers = require('joi-helpers'),
   Roles = require('../lib/roles').roles;
 
@@ -24,20 +23,10 @@ exports.schema = {
   org_id: joiHelpers.objectId(),
 
   roles: Joi.array().unique().sparse(false).min(1)
-            .items(Joi.string().valid(Roles))
-            .options({
-              language: { array: {
-                base: '{{key}} must be an array.',
-              }}
-            }),
+            .items(Joi.string().valid(Roles)),
 
-  groups: Joi.array().unique().sparse(false).min(1)
-             .items(joiHelpers.objectId())
-            .options({
-              language: { array: {
-                base: '{{key}} must be an array.',
-              }}
-            }),
+  groups: Joi.array().unique().sparse(false)
+             .items(joiHelpers.objectId()),
 
   // Book-keeping
   created: Joi.date().min('now').default(new Date),
@@ -55,25 +44,44 @@ exports.methods = {
     created: exports.schema.created,
     updated: exports.schema.updated,
   })
-  .requiredKeys('account_id', 'org_id', 'roles'),
+  .requiredKeys('account_id', 'org_id', 'roles')
+  .options({
+    language: {
+      array: {
+        base: '{{key}} must be an array.',
+      }
+    }}),
 
-  // Update Roles
-  update_roles: Joi.object({
-    account_id: exports.schema.account_id.strip(),
-    org_id: exports.schema.org_id.strip(),
-    roles: exports.schema.roles,
+  // Update Permission
+  update_permission: Joi.object({
     updated: exports.schema.updated,
-  })
-  .requiredKeys('account_id', 'org_id', 'roles'),
+    groups: exports.schema.groups
+            .options({
+              language: { array: {
+                base: '{{key}} must be an array.',
+              }}}),
 
-  // Update Groups
-  update_groups: Joi.object({
-    account_id: exports.schema.account_id.strip(),
-    org_id: exports.schema.org_id.strip(),
-    groups: exports.schema.groups,
-    updated: exports.schema.updated,
+    // For Update, Either Null or Array Is Allowed
+    // If Null, Permission is Removed
+    roles: Joi.alternatives().try(
+                 Joi.valid(null),
+                 exports.schema.roles)
+              .options({ language: {
+                array: {
+                  min: '{{key}} must be an array or [null].',
+                  base: '{{key}} must be an array or [null].'
+                },
+                any: { allowOnly: '{{key}} must be an array or [null].' }
+              }})
   })
-  .requiredKeys('account_id', 'org_id', 'groups'),
+  .min(2)
+  .options({
+    language: {
+      object: {
+        min: '!!Permission object must have at least 1 field to update.',
+      }
+    }
+  }),
 
 };
 

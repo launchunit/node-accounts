@@ -46,4 +46,6 @@ test.before.serial(t => {
 // require('./services/verify_email');
 // require('./services/create_org');
 // require('./services/create_group');
-require('./services/update_org');
+// require('./services/update_org');
+require('./services/create_permission');
+// require('./services/update_permission');
