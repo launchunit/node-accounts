@@ -4,7 +4,7 @@ const inspect = require('util').inspect,
 
 var Fn;
 test.before.serial(t => {
-  Fn = Services.account.verifyEmail;
+  Fn = Services.verifyEmail;
 });
 
 

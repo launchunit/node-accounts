@@ -28,12 +28,12 @@ module.exports = opts => {
     });
 
     // Return Services
-    return resolve({
-      account: require('./services/account')(opts.db),
-      org: require('./services/org')(opts.db),
-      group: require('./services/group')(opts.db),
-      permission: require('./services/permission')(opts.db),
-    });
+    return resolve(Object.assign({},
+      require('./services/account')(opts.db),
+      require('./services/org')(opts.db),
+      require('./services/group')(opts.db),
+      require('./services/permission')(opts.db)
+    ));
 
   });
 };

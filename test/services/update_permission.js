@@ -4,7 +4,7 @@ const inspect = require('util').inspect,
 
 var Fn;
 test.before.serial(t => {
-  Fn = Services.permission.updatePermission;
+  Fn = Services.updatePermission;
 });
 
 
@@ -71,54 +71,73 @@ test.serial('updatePermission (Valid id But Invalid roles Type)', t => {
     t.ok(Result.error.length === 1);
 
     // Print
-    console.log(inspect(Result, { depth: null }));
+    // console.log(inspect(Result, { depth: null }));
   });
 });
 
-// test.serial('updatePermission (Valid account_id & org_id But Invalid roles Type)', t => {
+test.serial('updatePermission (Valid roles but id Not Found)', t => {
+
+  Input = {
+    roles: null,
+    id: '56be1e169368a6a5e7f5fa8d'
+  };
+
+  return Fn(Input)
+  .then(Result => {
+
+    t.ok(Result.error);
+    t.ok(Result.error.length === 1);
+
+    // Print
+    // console.log(inspect(Result, { depth: null }));
+  });
+});
+
+test.serial('updatePermission (Valid id and roles)', t => {
+
+  Input = {
+    roles: ['guest', 'org.owner'],
+    id: '56c0df39944a83b916d137cc'
+  };
+
+  return Fn(Input)
+  .then(Result => {
+
+    t.ok(Result.error === undefined);
+    t.ok(Result.result);
+    t.ok(Result.result.id);
+
+    // Print
+    // console.log(inspect(Result, { depth: null }));
+  });
+});
+
+test.serial('updatePermission (Valid id and roles w/ removeRoles)', t => {
+
+  Input = {
+    roles: ['guest', 'org.owner'],
+    removeRoles: true,
+    id: '56c0df39944a83b916d137cc'
+  };
+
+  return Fn(Input)
+  .then(Result => {
+
+    t.ok(Result.error === undefined);
+    t.ok(Result.result);
+    t.ok(Result.result.id);
+
+    // Print
+    // console.log(inspect(Result, { depth: null }));
+  });
+});
+
+// test.serial('updatePermission (Valid id and roles = null)', t => {
 
 //   Input = {
 //     roles: null,
-//     account_id: '56be1d2a54d12187e6ee764d',
-//     org_id: '56be1e169368a6a5e7f5fa8d'
-//   };
-
-//   return Fn(Input)
-//   .then(Result => {
-
-//     t.ok(Result.error);
-//     t.ok(Result.error.length === 1);
-
-//     // Print
-//     // console.log(inspect(Result, { depth: null }));
-//   });
-// });
-
-// test.serial('updatePermission (Valid account_id & org_id But Invalid roles)', t => {
-
-//   Input = {
-//     roles: ['superman org'],
-//     account_id: '56be1d2a54d12187e6ee764d',
-//     org_id: '56be1e169368a6a5e7f5fa8d'
-//   };
-
-//   return Fn(Input)
-//   .then(Result => {
-
-//     t.ok(Result.error);
-//     t.ok(Result.error.length === 1);
-
-//     // Print
-//     // console.log(inspect(Result, { depth: null }));
-//   });
-// });
-
-// test.serial('updatePermission (Valid account_id, org_id & roles, But permission Exists', t => {
-
-//   Input = {
-//     roles: ['guest', 'system.admin'],
-//     account_id: '56be1d2a54d12187e6ee764d',
-//     org_id: '56be1e169368a6a5e7f5fa8d'
+//     removeRoles: true,
+//     id: '56be8e5db82160ad0480e12a'
 //   };
 
 //   return Fn(Input)
@@ -129,6 +148,6 @@ test.serial('updatePermission (Valid id But Invalid roles Type)', t => {
 //     t.ok(Result.result.id);
 
 //     // Print
-//     // console.log(inspect(Result, { depth: null }));
+//     console.log(inspect(Result, { depth: null }));
 //   });
 // });

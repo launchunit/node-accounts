@@ -15,7 +15,7 @@ module.exports = db => {
   /**
    * @params {ObjectId} input.id (Required)
    * @params {Array} input.roles (Required)
-   * @params {Array} input.removeRoles (Optional)
+   * @params {Boolean} input.removeRoles (Optional)
    *
    * @private
    */
@@ -234,6 +234,7 @@ module.exports = db => {
    * @params {String} input.id (Required)
    * @params {Array|null} input.roles (Optional)
    * @params {Array} input.groups (Optional)
+   * @params {Boolean} input.removeRoles (Optional)
    *
    * @public
    */
@@ -291,7 +292,7 @@ module.exports = db => {
 
           // Verify org_id
           db.collections.org.findOne({
-            _id: input.org_id
+            _id: result.org_id
           }, {
             fields: { active: 1 }
           })
@@ -315,6 +316,7 @@ module.exports = db => {
           updateRoles({
             id: input.id,
             roles: constants.roles,
+            removeRoles: input.removeRoles
           }),
           // updateRoles({
           //   id: results[2]._id,
