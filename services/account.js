@@ -5,10 +5,17 @@
  * Module dependencies.
  * @private
  */
-const joiHelpers = require('joi-helpers'),
+const _ = require('lodash'),
+  joiHelpers = require('joi-helpers'),
   crypto = require('../lib/crypto'),
   promiseHelpers = require('promise-helpers'),
   objectId = joiHelpers.objectId();
+
+
+/**
+ * Constants
+ */
+const PERMISSION_LIMIT = 10;
 
 
 module.exports = db => {
@@ -97,6 +104,7 @@ module.exports = db => {
       return resolve(db.collections.account.findOne({
         email: validate.value.email
       }, {
+        limit: 1,
         fields: { 'password': 1, active: 1 }
       }));
     })
@@ -270,12 +278,138 @@ module.exports = db => {
   };
 
 
+  /**
+   * @params {String} input.id (Required)
+   *
+   * @public
+   */
+  function getAccount(input) {
+
+    input = input || {};
+    var constants = {};
+
+    return new Promise((resolve, reject) => {
+
+      // Validate id
+      const validateId = joiHelpers.validate(objectId,
+                           (input.id || ''));
+
+      if (validateId.error) {
+        delete validateId.value;
+        return reject(validateId);
+      }
+
+      // Cast id
+      input.id = db.utils.toObjectID(validateId.value);
+
+
+      return resolve(Promise.all([
+
+        db.collections.account.findOne({
+          _id: input.id
+        }, {
+          limit: 1,
+          fields: { password: 0,
+                    reset_token: 0,
+                    reset_expiry: 0,
+                    last_login: 0,
+                    updated: 0 }
+        }),
+
+        db.collections.permission.find({
+          account_id: input.id
+        }, {
+          limit: PERMISSION_LIMIT,
+          fields: { created: 0, updated: 0, groups: 0 }
+        }).toArray()
+      ]));
+
+    })
+    .then(results => {
+
+      if (results[0] && results[0].active === true &&
+          results[1] && Array.isArray(results[1]) &&
+          results[1].length) {
+
+        // Save Reference & Create Promise
+        constants = results;
+
+        const promiseEach = () => {
+         return _.map(results[1], permission => {
+            return db.collections.org.findOne({
+              _id: permission.org_id
+            }, {
+              limit: 1,
+              fields: { created: 0,
+                        updated: 0,
+                        account_id: 0 }
+            });
+          });
+        };
+
+        return Promise.all(promiseEach());
+      }
+
+      return promiseHelpers.reject({
+        error: [{
+          path: 'id',
+          message: 'Either user account or org is not active.'
+        }]
+      });
+
+    })
+    .then(results => {
+
+      // Remove Nulls & Inactive
+      results = _.chain(results)
+                 .compact()
+                 .filter({ active: true })
+                 .intersectionWith(constants[1], (a, b) => {
+                   return a._id.equals(b.org_id);
+                 })
+                 .value();
+
+      if (results.length) {
+
+        _.forEach(results, o => {
+
+          Object.assign(o, _.find(constants[1], {
+            org_id: o._id
+          }), { id: o._id });
+
+          // Cleanup
+          delete o.account_id;
+          delete o.org_id;
+          delete o._id;
+        });
+
+        // Cleanup
+        constants[0].permissions = results;
+        constants[0].id = constants[0]._id;
+        delete constants[0]._id;
+
+        return { result: constants[0] };
+      }
+
+      return {
+        error: [{
+          path: 'id',
+          message: 'User account permission is not active.'
+        }]
+      };
+
+    })
+    .catch(promiseHelpers.mongoDone);
+  };
+
+
   // Return
   return {
     createAccount,
     login,
     updateAccount,
-    verifyEmail
+    verifyEmail,
+    getAccount
   };
 
 };

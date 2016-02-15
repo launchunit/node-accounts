@@ -73,12 +73,14 @@ module.exports = db => {
         db.collections.account.findOne({
           _id: input.account_id
         }, {
+          limit: 1,
           fields: { active: 1 }
         }),
 
         db.collections.org.findOne({
           _id: input.org_id
         }, {
+          limit: 1,
           fields: { active: 1 }
         })
       ]));

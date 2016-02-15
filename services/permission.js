@@ -37,10 +37,8 @@ module.exports = db => {
 
       // For Deleting the Permission
       if (input.roles === null) {
-        return resolve(db.collections.permission.remove({
+        return resolve(db.collections.permission.deleteOne({
           _id: input.id,
-        }, {
-          justOne: true,
         }));
       }
 
@@ -48,6 +46,7 @@ module.exports = db => {
       return resolve(db.collections.permission.findOne({
         _id: input.id,
       }, {
+        limit: 1,
         fields: { roles: 1 }
       }));
     })
@@ -155,6 +154,7 @@ module.exports = db => {
         db.collections.account.findOne({
           _id: input.account_id
         }, {
+          limit: 1,
           fields: { active: 1 }
         }),
 
@@ -162,6 +162,7 @@ module.exports = db => {
         db.collections.org.findOne({
           _id: input.org_id
         }, {
+          limit: 1,
           fields: { active: 1 }
         }),
 
@@ -170,6 +171,7 @@ module.exports = db => {
           account_id: input.account_id,
           org_id: input.org_id
         }, {
+          limit: 1,
           fields: { _id: 1 }
         })
       ]));
@@ -273,6 +275,7 @@ module.exports = db => {
       return resolve(db.collections.permission.findOne({
           _id: input.id
         }, {
+          limit: 1,
           fields: { account_id: 1, org_id: 1 }
         }));
 
@@ -287,6 +290,7 @@ module.exports = db => {
           db.collections.account.findOne({
             _id: result.account_id
           }, {
+            limit: 1,
             fields: { active: 1 }
           }),
 
@@ -294,6 +298,7 @@ module.exports = db => {
           db.collections.org.findOne({
             _id: result.org_id
           }, {
+            limit: 1,
             fields: { active: 1 }
           })
         ]);

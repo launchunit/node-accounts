@@ -97,7 +97,7 @@ test.serial('updatePermission (Valid id and roles)', t => {
 
   Input = {
     roles: ['guest', 'org.owner'],
-    id: '56c0df39944a83b916d137cc'
+    id: '56c0ff5a299c40311fa88ea3'
   };
 
   return Fn(Input)
@@ -117,7 +117,7 @@ test.serial('updatePermission (Valid id and roles w/ removeRoles)', t => {
   Input = {
     roles: ['guest', 'org.owner'],
     removeRoles: true,
-    id: '56c0df39944a83b916d137cc'
+    id: '56c0ff5a299c40311fa88ea3'
   };
 
   return Fn(Input)
@@ -137,17 +137,17 @@ test.serial('updatePermission (Valid id and roles w/ removeRoles)', t => {
 //   Input = {
 //     roles: null,
 //     removeRoles: true,
-//     id: '56be8e5db82160ad0480e12a'
+//     id: '56c0ff5a299c40311fa88ea3'
 //   };
 
 //   return Fn(Input)
 //   .then(Result => {
 
-//     t.ok(Result.error === undefined);
-//     t.ok(Result.result);
-//     t.ok(Result.result.id);
+    // t.ok(Result.error === undefined);
+    // t.ok(Result.result);
+    // t.ok(Result.result.id);
 
-//     // Print
+    // Print
 //     console.log(inspect(Result, { depth: null }));
 //   });
 // });

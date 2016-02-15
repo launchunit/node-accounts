@@ -61,6 +61,7 @@ module.exports = db => {
       return resolve(db.collections.account.findOne({
         _id: input.id
       }, {
+        limit: 1,
         fields: { active: 1 }
       }));
     })
