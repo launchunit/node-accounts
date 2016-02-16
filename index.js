@@ -10,30 +10,44 @@ const mongoDB = require('mongodb-client');
 
 
 /**
- * @params {Db Instance} opts.db (Required)
+ * @params {Db Instance} opts.db (Optional)
+ * @params {Sting} opts.hmacSalt (Optional)
  *
  * @return {Promise}
  * @public
  */
-module.exports = opts => {
+exports.Server = opts => {
 
-  opts = opts || {};
+  // Clean Up Opts
+  opts = Object.assign({
+    hmacSalt: 'SvRoxdzS9kuuUZj1k_x=kclb4fdsFvmB',
+  }, opts);
 
-  return new Promise((resolve, reject) => {
 
+  if (opts.db) {
     // Load the Models
     mongoDB.loadModels(__dirname + '/models');
     mongoDB.initModels({
       db: opts.db.db || opts.db
     });
+  }
 
-    // Return Services
-    return resolve(Object.assign({},
-      require('./services/account')(opts.db),
-      require('./services/org')(opts.db),
-      require('./services/group')(opts.db),
-      require('./services/permission')(opts.db)
-    ));
+  // Build Return Object
+  return Object.assign({},
+    opts.db ? require('./services/account')(opts.db) : undefined,
+    opts.db ? require('./services/org')(opts.db) : undefined,
+    opts.db ? require('./services/group')(opts.db) : undefined,
+    opts.db ? require('./services/permission')(opts.db) : undefined,
+    require('./services/token')(opts.hmacSalt)
+  );
+};
 
-  });
+/**
+ * @params {Object} authServer (Required)
+ *
+ * @return {Promise}
+ * @public
+ */
+exports.Client = authServer => {
+  return require('./services/authorize_route')(authServer);
 };

@@ -17,7 +17,7 @@ test.before.serial(t => {
   })
   .then(db => {
     global.DB = db;
-    return require('../')({ db: db });
+    return require('../').Server({ db: db });
   })
   .then(services => {
     global.Services = services;
@@ -50,3 +50,5 @@ test.before.serial(t => {
 // require('./services/create_permission');
 // require('./services/update_permission');
 require('./services/get_account');
+// require('./services/create_token');
+// require('./services/validate_token');

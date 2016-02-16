@@ -9,16 +9,16 @@
   "dependencies": {
     "bcrypt": "^0.8.5",
     "deep-freeze": "0.0.1",
-    "ioredis": "^1.15.0",
+    "iron": "^4.0.0",
     "joi": "^7.2.3",
+    "mongodb-client": "git@github.com:launchunit/mongodb-client.git",
     "joi-helpers": "git@github.com:launchunit/joi-helpers.git",
-    "promise-helpers": "git@github.com:launchunit/promise-helpers.git",
-    "lodash": "^4.2.1"
+    "lodash": "^4.2.1",
+    "promise-helpers": "git@github.com:launchunit/promise-helpers.git"
   },
   "devDependencies": {
     "ava": "^0.7.0",
     "express-logger": "git@github.com:launchunit/express-logger.git",
-    "mongodb-client": "git@github.com:launchunit/mongodb-client.git",
     "node-uuid": "^1.4.7"
   }
 }
